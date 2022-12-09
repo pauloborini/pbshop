@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/cart_page.dart';
+import 'pages/edit_product_page.dart';
 import 'pages/manager_products_page.dart';
 import 'pages/new_product_form_page.dart';
 import 'pages/orders_page.dart';
@@ -24,15 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => ProductList(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Cart(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => OrderList(),
-        ),
+        ChangeNotifierProvider(create: (_) => ProductList()),
+        ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => OrderList()),
       ],
       child: MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
@@ -59,9 +54,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.orders: (ctx) => const OrdersPage(),
           AppRoutes.products: (ctx) => const ManagerProductsPage(),
           AppRoutes.newproduct: (ctx) => const NewProductFormPage(),
-          // AppRoutes.editproduct: (ctx) => EditProductPage(
-          //       product: null,
-          //     ),
+          AppRoutes.editproduct: (ctx) => const EditProductPage(),
         },
         debugShowCheckedModeBanner: false,
       ),

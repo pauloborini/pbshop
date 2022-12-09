@@ -1,13 +1,10 @@
-import 'dart:math';
-
-import 'package:PBStore/utils/colors_and_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:validatorless/validatorless.dart';
 
-import '../models/product.dart';
 import '../providers/product_list.dart';
+import '../utils/colors_and_vars.dart';
 
 class NewProductFormPage extends StatefulWidget {
   const NewProductFormPage({Key? key}) : super(key: key);
@@ -103,7 +100,7 @@ class _NewProductFormPageState extends State<NewProductFormPage> {
                 maxLines: 2,
                 validator: Validatorless.multiple([
                   Validatorless.required('Descrição é obrigatória'),
-                  Validatorless.max(50, 'Máximo de 50 caracteres'),
+                  Validatorless.max(90, 'Máximo de 90 caracteres'),
                   Validatorless.min(15, 'Mínimo de 15 caracteres')
                 ]),
                 onFieldSubmitted: (_) {
@@ -164,14 +161,11 @@ class _NewProductFormPageState extends State<NewProductFormPage> {
                       var formValid =
                           _formKey.currentState?.validate() ?? false;
                       if (formValid) {
-                        final Product product = Product(
-                            id: Random().nextDouble().toString(),
-                            name: _nameController.text,
-                            description: _descriptionController.text,
-                            price: double.parse(_priceController.text),
-                            imageUrl: _urlController.text);
-
-                        productList.addProduct(product);
+                        productList.saveProduct(
+                            _nameController,
+                            _descriptionController,
+                            _priceController,
+                            _urlController);
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text('Produto criado com sucesso')));

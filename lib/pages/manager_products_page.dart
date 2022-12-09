@@ -35,8 +35,8 @@ class ManagerProductsPage extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.newproduct);
           },
-          child: Icon(FontAwesomeIcons.plus),
-          backgroundColor: Theme.of(context).colorScheme.secondary),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          child: const Icon(FontAwesomeIcons.plus)),
     );
   }
 }

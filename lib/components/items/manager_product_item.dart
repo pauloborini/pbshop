@@ -1,6 +1,5 @@
-import 'package:PBStore/pages/edit_product_page.dart';
 import 'package:PBStore/providers/product_list.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:PBStore/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,11 +28,8 @@ class ManagerProductItem extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) =>
-                            EditProductPage(product: product)));
+                Navigator.pushNamed(context, AppRoutes.editproduct,
+                    arguments: product);
               },
             ),
             IconButton(
