@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../components/app_drawer.dart';
 import '../components/badge.dart';
-import '../components/items/product_grid.dart';
+import '../components/product_grid.dart';
 import '../providers/cart.dart';
 import '../utils/app_routes.dart';
 
@@ -27,8 +27,7 @@ class _ShopPageState extends State<ShopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PB Store',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
+        title: const Text('PB Store'),
         actions: [
           PopupMenuButton(
             icon: const Icon(
