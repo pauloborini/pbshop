@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:PBStore/utils/colors_and_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,9 +8,7 @@ import '../models/product.dart';
 import '../providers/product_list.dart';
 
 class EditProductPage extends StatefulWidget {
-  final Product product;
-
-  const EditProductPage({Key? key, required this.product}) : super(key: key);
+  const EditProductPage({super.key});
 
   @override
   State<EditProductPage> createState() => _EditProductPageState();
@@ -22,16 +18,18 @@ class _EditProductPageState extends State<EditProductPage> {
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
   final _urlFocus = FocusNode();
+  late final Product product =
+      ModalRoute.of(context)?.settings.arguments as Product;
 
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController =
-      TextEditingController(text: widget.product.name);
+      TextEditingController(text: product.name);
   late final TextEditingController _priceController =
-      TextEditingController(text: widget.product.price.toString());
+      TextEditingController(text: product.price.toString());
   late final TextEditingController _descriptionController =
-      TextEditingController(text: widget.product.description);
+      TextEditingController(text: product.description);
   late final TextEditingController _urlController =
-      TextEditingController(text: widget.product.imageUrl);
+      TextEditingController(text: product.imageUrl);
 
   @override
   void dispose() {
@@ -109,7 +107,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 maxLines: 2,
                 validator: Validatorless.multiple([
                   Validatorless.required('Descrição é obrigatória'),
-                  Validatorless.max(50, 'Máximo de 50 caracteres'),
+                  Validatorless.max(90, 'Máximo de 90 caracteres'),
                   Validatorless.min(15, 'Mínimo de 15 caracteres')
                 ]),
                 onFieldSubmitted: (_) {
@@ -170,14 +168,12 @@ class _EditProductPageState extends State<EditProductPage> {
                       var formValid =
                           _formKey.currentState?.validate() ?? false;
                       if (formValid) {
-                        final Product product = Product(
-                            id: Random().nextDouble().toString(),
-                            name: _nameController.text,
-                            description: _descriptionController.text,
-                            price: double.parse(_priceController.text),
-                            imageUrl: _urlController.text);
-
-                        productList.addProduct(product);
+                        productList.updateProduct(
+                            _nameController,
+                            _descriptionController,
+                            _priceController,
+                            _urlController,
+                            product);
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text('Produto editado com sucesso')));

@@ -73,7 +73,7 @@ class ProductDetailPage extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                 width: MediaQuery.of(context).size.width,
-                height: 85,
+                height: 110,
                 decoration: BoxDecoration(
                     color: stanColor.withOpacity(0.8),
                     borderRadius: const BorderRadius.only(
@@ -85,16 +85,14 @@ class ProductDetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: SizedBox(
-                      height: 30,
+                      height: 50,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: FittedBox(
-                        child: Text(
-                          product.description,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
+                      child: Text(
+                        product.description,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        style: const TextStyle(
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -108,7 +106,7 @@ class ProductDetailPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 120, 0),
                           child: Text(
-                            'R\$ ${product.price}',
+                            'R\$ ${product.price.toStringAsFixed(2)}',
                             style: const TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.bold),
                           ),
@@ -158,20 +156,6 @@ class ProductDetailPage extends StatelessWidget {
                   )
                 ],
               ),
-
-              // Consumer<Product>(
-              //   builder: (ctx, product, _) => Expanded(
-              //     child: IconButton(
-              //       onPressed: () {
-              //         product.toggleFavorite();
-              //       },
-              //       icon: Icon(product.isFavorite
-              //           ? Icons.favorite
-              //           : Icons.favorite_border),
-              //       color: Theme.of(context).colorScheme.secondary,
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ],
@@ -179,46 +163,3 @@ class ProductDetailPage extends StatelessWidget {
     );
   }
 }
-// Row(
-// mainAxisAlignment: MainAxisAlignment.start,
-// children: [
-//
-// Expanded(
-// child: SizedBox(
-// width: 200,
-// child: Text(
-// product.name,
-// textAlign: TextAlign.center,
-// ),
-// ),
-// ),
-// Expanded(
-// child: SizedBox(
-// width: 50,
-// child: IconButton(
-// icon: const Icon(Icons.shopping_cart),
-// color: Theme.of(context).colorScheme.secondary,
-// onPressed: () {
-// ScaffoldMessenger.of(context)
-//     .hideCurrentSnackBar();
-// ScaffoldMessenger.of(context).showSnackBar(
-// SnackBar(
-// content: const Text(
-// 'Produto adicionado com sucesso!'),
-// duration: const Duration(seconds: 2),
-// action: SnackBarAction(
-// label: 'DESFAZER',
-// onPressed: () {
-// providerCart.removeSingleItem(product.id);
-// },
-// ),
-// ),
-// );
-// providerCart.addItem(product);
-// },
-// ),
-// ),
-// ),
-// ],
-// ),
-// ),
