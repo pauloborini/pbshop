@@ -1,8 +1,10 @@
+import 'package:PBStore/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../components/app_drawer.dart';
-import '../components/items/product_item.dart';
+import '../components/items/manager_product_item.dart';
 import '../providers/product_list.dart';
 
 class ManagerProductsPage extends StatelessWidget {
@@ -10,7 +12,7 @@ class ManagerProductsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductList products = Provider.of(context);
+    final products = Provider.of<ProductList>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Gerenciar Produtos'),
@@ -22,12 +24,19 @@ class ManagerProductsPage extends StatelessWidget {
           itemCount: products.itemsCount,
           itemBuilder: (context, index) => Column(
             children: [
-              ProductItem(products.items[index]),
+              ManagerProductItem(product: products.items[index]),
               const Divider(),
             ],
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.newproduct);
+          },
+          child: Icon(FontAwesomeIcons.plus),
+          backgroundColor: Theme.of(context).colorScheme.secondary),
     );
   }
 }

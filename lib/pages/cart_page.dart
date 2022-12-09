@@ -32,7 +32,7 @@ class CartPage extends StatelessWidget {
       body: Column(
         children: [
           SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.68,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -73,12 +73,23 @@ class CartPage extends StatelessWidget {
                   const Spacer(),
                   TextButton(
                     onPressed: () {
-                      Provider.of<OrderList>(
-                        context,
-                        listen: false,
-                      ).addOrder(cart);
-
-                      cart.clear();
+                      if (cart.itemsCount > 0) {
+                        Provider.of<OrderList>(
+                          context,
+                          listen: false,
+                        ).addOrder(cart);
+                        cart.clear();
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Pedido gerado com sucesso'),
+                          duration: Duration(seconds: 2),
+                        ));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                'Adicione algum item para realizar o Pedido'),
+                            duration: Duration(seconds: 2)));
+                      }
                     },
                     child: const Text(
                       'COMPRAR',

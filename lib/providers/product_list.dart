@@ -19,27 +19,17 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeProduct(Product product) {
+    _items.remove(product);
+    notifyListeners();
+  }
+
+  // void updateProduct(Product product) {
+  //   _items.notifyListeners();
+  // }
+
   void toggleFavorite(Product product) {
     product.isFavorite = !product.isFavorite;
     notifyListeners();
   }
 }
-
-// bool _showFavoriteOnly = false;
-
-//   List<Product> get items {
-//     if (_showFavoriteOnly) {
-//       return _items.where((prod) => prod.isFavorite).toList();
-//     }
-//     return [..._items];
-//   }
-
-//   void showFavoriteOnly() {
-//     _showFavoriteOnly = true;
-//     notifyListeners();
-//   }
-
-//   void showAll() {
-//     _showFavoriteOnly = false;
-//     notifyListeners();
-//   }
