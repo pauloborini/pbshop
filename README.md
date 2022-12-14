@@ -1,7 +1,7 @@
 ## App - Exemplo de Loja...
 
 <h3 align="left">App de uma Loja Virtual</h3>
-App para exemplificar uma loja virtual, com cadastro de produtos, edição e exclusão dos produtos já cadastrados, carrinho do compras, sistema de pedidos, visualização dos pedidos gerados e seus respectivos itens.
+App para exemplificar uma loja virtual, com cadastro de produtos, edição e exclusão dos produtos já cadastrados, carrinho do compras, sistema de pedidos, visualização dos pedidos gerados e seus respectivos itens. Conta com sistema de favoritos e filtro dos mesmos.
 
 <h3 align="left">Tecnologias utilizadas</h3>
 <p align="left"> <a href="https://dart.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/dartlang/dartlang-icon.svg" alt="dart" width="40" height="40"/> </a> <a href="https://flutter.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg" alt="flutter" width="40" height="40"/> </a> </p>
