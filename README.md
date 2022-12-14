@@ -23,8 +23,7 @@ Ao abrir o projeto executar o "Pub get" no arquivo pubspec.yaml e depois rodar n
 <h3 align="left">Features</h3>
 <div align="center">
 
-
-https://user-images.githubusercontent.com/86570695/205706073-dda7298b-2ffb-43a7-b85e-b46ef728ff17.mp4
+https://user-images.githubusercontent.com/86570695/207698024-75de6880-19bd-4e47-a0a3-29e8477b97c5.mp4
 
 </div>
 <h3 align="left">Connect with me:</h3>
