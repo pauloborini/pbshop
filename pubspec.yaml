@@ -34,6 +34,7 @@ dependencies:
   validatorless: ^1.2.3
   modal_bottom_sheet: ^2.1.2
   font_awesome_flutter: ^10.3.0
+  dyn_mouse_scroll: 1.0.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
