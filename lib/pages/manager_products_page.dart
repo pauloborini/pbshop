@@ -1,3 +1,4 @@
+import 'package:PBStore/components/responsive.dart';
 import 'package:PBStore/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,30 +14,33 @@ class ManagerProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<ProductList>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gerenciar Produtos'),
-      ),
-      drawer: const AppDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: products.itemsCount,
-          itemBuilder: (context, index) => Column(
-            children: [
-              ManagerProductItem(product: products.items[index]),
-              const Divider(),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.newproduct);
-          },
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: const Icon(FontAwesomeIcons.plus)),
-    );
+    return Responsive.isXTest(context)
+        ? const Scaffold()
+        : Scaffold(
+            appBar: AppBar(
+              title: const Text('Gerenciar Produtos'),
+            ),
+            drawer: const AppDrawer(),
+            body: Padding(
+              padding: const EdgeInsets.all(8),
+              child: ListView.builder(
+                itemCount: products.itemsCount,
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    ManagerProductItem(product: products.items[index]),
+                    const Divider(),
+                  ],
+                ),
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.newproduct);
+                },
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                child: const Icon(FontAwesomeIcons.plus)),
+          );
   }
 }

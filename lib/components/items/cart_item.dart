@@ -1,4 +1,4 @@
-import 'package:PBStore/utils/colors_and_vars.dart';
+import 'package:PBStore/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

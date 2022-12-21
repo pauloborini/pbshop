@@ -1,3 +1,4 @@
+import 'package:PBStore/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,9 +31,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OrderList()),
       ],
       child: MaterialApp(
-        scrollBehavior: MyCustomScrollBehavior(),
-        title: 'Flutter Demo',
+        title: 'PB Shop',
         theme: ThemeData(
+            brightness: Brightness.light,
+            backgroundColor: stanColor,
             useMaterial3: true,
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: Colors.redAccent,
@@ -49,7 +51,6 @@ class MyApp extends StatelessWidget {
         initialRoute: AppRoutes.home,
         routes: {
           AppRoutes.home: (ctx) => const ShopPage(),
-          AppRoutes.productDetail: (ctx) => const ProductDetailPage(),
           AppRoutes.cart: (ctx) => const CartPage(),
           AppRoutes.orders: (ctx) => const OrdersPage(),
           AppRoutes.products: (ctx) => const ManagerProductsPage(),

@@ -32,4 +32,11 @@ final dummyProducts = [
     imageUrl:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
   ),
+  Product(
+    id: 'p5',
+    name: 'A Ball',
+    description: 'Play soccer with your friends and family.',
+    price: 49.99,
+    imageUrl: 'https://cdn.iset.io/assets/48712/produtos/220/fco_810.jpg',
+  ),
 ];
