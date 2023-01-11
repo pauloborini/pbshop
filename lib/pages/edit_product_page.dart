@@ -19,18 +19,13 @@ class _EditProductPageState extends State<EditProductPage> {
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
   final _urlFocus = FocusNode();
-  late final Product product =
-      ModalRoute.of(context)?.settings.arguments as Product;
+  late final Product product = ModalRoute.of(context)?.settings.arguments as Product;
 
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _nameController =
-      TextEditingController(text: product.name);
-  late final TextEditingController _priceController =
-      TextEditingController(text: product.price.toString());
-  late final TextEditingController _descriptionController =
-      TextEditingController(text: product.description);
-  late final TextEditingController _urlController =
-      TextEditingController(text: product.imageUrl);
+  late final TextEditingController _nameController = TextEditingController(text: product.name);
+  late final TextEditingController _priceController = TextEditingController(text: product.price.toString());
+  late final TextEditingController _descriptionController = TextEditingController(text: product.description);
+  late final TextEditingController _urlController = TextEditingController(text: product.imageUrl);
 
   @override
   void dispose() {
@@ -43,10 +38,7 @@ class _EditProductPageState extends State<EditProductPage> {
 
   bool isValidImageUrl(String url) {
     bool isValidURL = Uri.parse(url).hasAbsolutePath;
-    bool endsWithExtension = url.toLowerCase().endsWith('png') ||
-        url.toLowerCase().endsWith('jpg') ||
-        url.toLowerCase().endsWith('jpeg') ||
-        url.toLowerCase().endsWith('webp');
+    bool endsWithExtension = url.toLowerCase().endsWith('png') || url.toLowerCase().endsWith('jpg') || url.toLowerCase().endsWith('jpeg') || url.toLowerCase().endsWith('webp');
     return isValidURL && endsWithExtension;
   }
 
@@ -69,16 +61,11 @@ class _EditProductPageState extends State<EditProductPage> {
                       controller: _nameController,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
-                      validator: Validatorless.multiple([
-                        Validatorless.required('Nome é obrigatório'),
-                        Validatorless.max(20, 'Máximo de 20 caracteres')
-                      ]),
+                      validator: Validatorless.multiple([Validatorless.required('Nome é obrigatório'), Validatorless.max(20, 'Máximo de 20 caracteres')]),
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).requestFocus(_priceFocus);
                       },
-                      decoration: const InputDecoration(
-                          labelText: 'Nome do Item',
-                          prefixIcon: Icon(FontAwesomeIcons.tag, size: 22)),
+                      decoration: const InputDecoration(labelText: 'Nome do Item', prefixIcon: Icon(FontAwesomeIcons.tag, size: 22)),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -86,22 +73,16 @@ class _EditProductPageState extends State<EditProductPage> {
                         focusNode: _priceFocus,
                         controller: _priceController,
                         textInputAction: TextInputAction.next,
-                        keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         validator: Validatorless.multiple([
                           Validatorless.required('Preço é obrigatório'),
                           Validatorless.number('Apenas números'),
-                          Validatorless.numbersBetweenInterval(
-                              0.01, double.infinity, 'Valor não pode ser Zero')
+                          Validatorless.numbersBetweenInterval(0.01, double.infinity, 'Valor não pode ser Zero')
                         ]),
                         onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_descriptionFocus);
+                          FocusScope.of(context).requestFocus(_descriptionFocus);
                         },
-                        decoration: const InputDecoration(
-                            labelText: 'Preço do Item',
-                            prefixIcon:
-                                Icon(FontAwesomeIcons.dollarSign, size: 22)),
+                        decoration: const InputDecoration(labelText: 'Preço do Item', prefixIcon: Icon(FontAwesomeIcons.dollarSign, size: 22)),
                       ),
                     ),
                     TextFormField(
@@ -110,17 +91,12 @@ class _EditProductPageState extends State<EditProductPage> {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.multiline,
                       maxLines: 2,
-                      validator: Validatorless.multiple([
-                        Validatorless.required('Descrição é obrigatória'),
-                        Validatorless.max(90, 'Máximo de 90 caracteres'),
-                        Validatorless.min(15, 'Mínimo de 15 caracteres')
-                      ]),
+                      validator: Validatorless.multiple(
+                          [Validatorless.required('Descrição é obrigatória'), Validatorless.max(90, 'Máximo de 90 caracteres'), Validatorless.min(15, 'Mínimo de 15 caracteres')]),
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).requestFocus(_urlFocus);
                       },
-                      decoration: const InputDecoration(
-                          labelText: 'Descrição do Item',
-                          prefixIcon: Icon(FontAwesomeIcons.filePen, size: 22)),
+                      decoration: const InputDecoration(labelText: 'Descrição do Item', prefixIcon: Icon(FontAwesomeIcons.filePen, size: 22)),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -137,8 +113,7 @@ class _EditProductPageState extends State<EditProductPage> {
                               child: Image.network(
                                 _urlController.text,
                                 fit: BoxFit.cover,
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
+                                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                                   return const Center(
                                       child: Text(
                                     'Insira URL da imagem',
@@ -162,33 +137,20 @@ class _EditProductPageState extends State<EditProductPage> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          labelText: 'Url da Imagem',
-                          prefixIcon: Icon(FontAwesomeIcons.link, size: 22)),
+                      decoration: const InputDecoration(labelText: 'Url da Imagem', prefixIcon: Icon(FontAwesomeIcons.link, size: 22)),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: ElevatedButton(
                           onPressed: () {
-                            var formValid =
-                                _formKey.currentState?.validate() ?? false;
+                            var formValid = _formKey.currentState?.validate() ?? false;
                             if (formValid) {
-                              productList.updateProduct(
-                                  _nameController,
-                                  _descriptionController,
-                                  _priceController,
-                                  _urlController,
-                                  product);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text('Produto editado com sucesso')));
+                              productList.updateProduct(_nameController, _descriptionController, _priceController, _urlController, product);
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Produto editado com sucesso')));
                               Navigator.of(context).pop();
                             }
                           },
-                          style: ButtonStyle(
-                              surfaceTintColor:
-                                  MaterialStateProperty.all(stanColor)),
+                          style: ButtonStyle(surfaceTintColor: MaterialStateProperty.all(stanColor)),
                           child: const Text(
                             'Editar',
                             style: TextStyle(fontSize: 20),
