@@ -55,6 +55,7 @@ class ProductGrid extends StatelessWidget {
     final provider = Provider.of<ProductList>(context);
     final List<Product> loadedProducts =
         showFavoriteOnly ? provider.favoriteItems : provider.items;
+
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,

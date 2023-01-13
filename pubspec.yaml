@@ -36,7 +36,8 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   dyn_mouse_scroll: 1.0.7
   http: 0.13.3
-
+  auto_size_text: 3.0.0
+  uuid: 3.0.7
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

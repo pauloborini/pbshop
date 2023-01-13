@@ -1,5 +1,6 @@
 import 'package:PBStore/components/responsive.dart';
 import 'package:PBStore/providers/product_list.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -66,34 +67,34 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             body: Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Container(
                     padding: const EdgeInsets.all(20),
                     constraints: const BoxConstraints(maxWidth: maxWidth),
                     width: width * 0.9,
                     decoration: BoxDecoration(
                         color: Colors.white, borderRadius: BorderRadius.circular(12)),
-                    height: height * 0.7,
+                    height: height * 0.78,
                     child: Responsive.isTest(context)
                         ? Center(
                             child: Column(
                               children: [
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12)),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.network(
-                                        widget.product.imageUrl,
-                                        fit: BoxFit.cover,
+                                height < 510
+                                    ? const SizedBox()
+                                    : Container(
+                                        width: width * 0.7,
+                                        height: height * 0.4,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(12)),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(12),
+                                          child: Image.network(
+                                            widget.product.imageUrl,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Row(
@@ -102,7 +103,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     children: [
                                       SizedBox(
                                         width: width * 0.7,
-                                        child: Text(
+                                        height: height * 0.2,
+                                        child: AutoSizeText(
                                           widget.product.description,
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(fontSize: 22),
@@ -115,76 +117,80 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      SizedBox(
-                                        child: Text(
-                                          'R\$ ${widget.product.price.toStringAsFixed(2)}',
-                                          style: const TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
+                                  child: SizedBox(
+                                    width: width * 0.7,
+                                    height: height * 0.07,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SizedBox(
+                                          child: AutoSizeText(
+                                            'R\$ ${widget.product.price.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold),
+                                            minFontSize: 16,
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            FittedBox(
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  providerProductList
-                                                      .toggleFavorite(widget.product);
-                                                },
-                                                icon: Icon(
-                                                  widget.product.isFavorite
-                                                      ? Icons.favorite
-                                                      : Icons.favorite_border,
-                                                  size: 28,
+                                        SizedBox(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              FittedBox(
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    providerProductList
+                                                        .toggleFavorite(widget.product);
+                                                  },
+                                                  icon: Icon(
+                                                    widget.product.isFavorite
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
+                                                    size: 28,
+                                                  ),
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
                                                 ),
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary,
                                               ),
-                                            ),
-                                            FittedBox(
-                                              child: IconButton(
-                                                icon: const Icon(
-                                                  FontAwesomeIcons.cartShopping,
-                                                  size: 23,
-                                                ),
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary,
-                                                onPressed: () {
-                                                  ScaffoldMessenger.of(context)
-                                                      .hideCurrentSnackBar();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: const Text(
-                                                          'Produto adicionado com sucesso!'),
-                                                      duration:
-                                                          const Duration(seconds: 2),
-                                                      action: SnackBarAction(
-                                                        label: 'DESFAZER',
-                                                        onPressed: () {
-                                                          providerCart.removeSingleItem(
-                                                              widget.product.id);
-                                                        },
+                                              FittedBox(
+                                                child: IconButton(
+                                                  icon: const Icon(
+                                                    FontAwesomeIcons.cartShopping,
+                                                    size: 23,
+                                                  ),
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                  onPressed: () {
+                                                    ScaffoldMessenger.of(context)
+                                                        .hideCurrentSnackBar();
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: const Text(
+                                                            'Produto adicionado com sucesso!'),
+                                                        duration:
+                                                            const Duration(seconds: 2),
+                                                        action: SnackBarAction(
+                                                          label: 'DESFAZER',
+                                                          onPressed: () {
+                                                            providerCart.removeSingleItem(
+                                                                widget.product.id);
+                                                          },
+                                                        ),
                                                       ),
-                                                    ),
-                                                  );
-                                                  providerCart.addItem(widget.product);
-                                                },
+                                                    );
+                                                    providerCart.addItem(widget.product);
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -196,7 +202,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               decoration:
                                   BoxDecoration(borderRadius: BorderRadius.circular(12)),
                               height: height * 0.5,
-                              width: width * 0.35,
+                              width: width * 0.4,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
                                 child: Image.network(
@@ -224,11 +230,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 SizedBox(
                                   width: width * 0.2,
                                   height: height * 0.2,
-                                  child: Text(
+                                  child: AutoSizeText(
                                     widget.product.description,
                                     style: const TextStyle(fontSize: 22),
+                                    minFontSize: 16,
                                     maxLines: 4,
-                                    overflow: TextOverflow.clip,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 SizedBox(
@@ -286,8 +293,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               ],
                             ),
                           ]),
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
           );

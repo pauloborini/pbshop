@@ -1,5 +1,7 @@
 import 'package:PBStore/components/responsive.dart';
+import 'package:PBStore/providers/product_list.dart';
 import 'package:PBStore/utils/constants.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dyn_mouse_scroll/dyn_mouse_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,6 +30,7 @@ class _ShopPageState extends State<ShopPage> {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteItems = Provider.of<ProductList>(context).favoriteItems;
     return Responsive.isXTest(context)
         ? const Scaffold()
         : Scaffold(
@@ -41,9 +44,11 @@ class _ShopPageState extends State<ShopPage> {
                     size: 30,
                   ),
                   itemBuilder: (_) => [
-                    const PopupMenuItem(
-                      value: FilterOptions.favorite,
-                      child: Text('Somente Favoritos'),
+                    PopupMenuItem(
+                      value: favoriteItems.isNotEmpty
+                          ? FilterOptions.favorite
+                          : FilterOptions.all,
+                      child: const Text('Somente Favoritos'),
                     ),
                     const PopupMenuItem(
                       value: FilterOptions.all,
@@ -91,8 +96,8 @@ class _ShopPageState extends State<ShopPage> {
                             children: [
                               const Padding(
                                 padding: EdgeInsets.only(top: 10),
-                                child: Text('As Melhores ofertas da Internet',
-                                    style: TextStyle(fontSize: 24)),
+                                child: AutoSizeText('As Melhores ofertas da Internet',
+                                    maxLines: 1, style: TextStyle(fontSize: 24)),
                               ),
                               ProductView(
                                 showFavoriteOnly: _showFavoriteOnly,

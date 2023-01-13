@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../data/dummy_data.dart';
+
 import '../models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final _urlFirebase = 'https://pbstore-sample-default-rtdb.firebaseio.com/';
-  final List<Product> _items = dummyProducts;
+  final _urlFirebase = 'https://pbstore-sample-default-rtdb.firebaseio.com/products.json';
+  final List<Product> _items = [];
 
   List<Product> get items => [..._items];
 
@@ -18,8 +17,28 @@ class ProductList with ChangeNotifier {
     return _items.length;
   }
 
-  void addProduct(Product product) {
-    http.post(Uri.parse('$_urlFirebase/products.json'),
+  ProductList() {
+    loadProducts();
+  }
+
+  loadProducts() async {
+    final response = await http.get(Uri.parse(_urlFirebase));
+    Map<String, dynamic> data = jsonDecode(response.body);
+    data.forEach((productID, productData) {
+      _items.add(Product(
+        id: productID,
+        name: productData["name"],
+        description: productData["description"],
+        price: productData["price"],
+        imageUrl: productData["imageUrl"],
+        isFavorite: productData["isFavorite"],
+      ));
+    });
+    notifyListeners();
+  }
+
+  addProduct(Product product) async {
+    final response = await http.post(Uri.parse(_urlFirebase),
         body: jsonEncode({
           "name": product.name,
           "description": product.description,
@@ -27,7 +46,15 @@ class ProductList with ChangeNotifier {
           "imageUrl": product.imageUrl,
           "isFavorite": product.isFavorite,
         }));
-    _items.add(product);
+
+    final id = jsonDecode(response.body)["name"];
+    _items.add(Product(
+        id: id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        isFavorite: product.isFavorite));
     notifyListeners();
   }
 
@@ -36,19 +63,18 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  void saveProduct(
+  Future<void> saveProduct(
       TextEditingController nameController,
       TextEditingController descController,
       TextEditingController priceController,
-      TextEditingController urlController) {
+      TextEditingController urlController) async {
     final product = Product(
-        id: Random().nextDouble().toString(),
+        id: 'id',
         name: nameController.text,
         description: descController.text,
         price: double.parse(priceController.text),
         imageUrl: urlController.text);
-    addProduct(product);
-    notifyListeners();
+    await addProduct(product);
   }
 
   void updateProduct(

@@ -14,7 +14,8 @@ import 'providers/order_list.dart';
 import 'providers/product_list.dart';
 import 'utils/app_routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Login',
             appBarTheme: const AppBarTheme(
                 centerTitle: true,
-                toolbarHeight: 70,
+                toolbarHeight: 60,
                 systemOverlayStyle:
                     SystemUiOverlayStyle(statusBarColor: Colors.transparent),
                 elevation: 0,
