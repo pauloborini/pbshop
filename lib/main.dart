@@ -1,5 +1,6 @@
 import 'package:PBStore/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/cart_page.dart';
@@ -7,13 +8,11 @@ import 'pages/edit_product_page.dart';
 import 'pages/manager_products_page.dart';
 import 'pages/new_product_form_page.dart';
 import 'pages/orders_page.dart';
-import 'pages/product_detail_page.dart';
 import 'pages/shop_page.dart';
 import 'providers/cart.dart';
 import 'providers/order_list.dart';
 import 'providers/product_list.dart';
 import 'utils/app_routes.dart';
-import 'utils/functions.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,12 +41,14 @@ class MyApp extends StatelessWidget {
             ),
             fontFamily: 'Login',
             appBarTheme: const AppBarTheme(
+                centerTitle: true,
+                toolbarHeight: 70,
+                systemOverlayStyle:
+                    SystemUiOverlayStyle(statusBarColor: Colors.transparent),
                 elevation: 0,
                 scrolledUnderElevation: 0,
                 titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                    color: Colors.black))),
+                    fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black))),
         initialRoute: AppRoutes.home,
         routes: {
           AppRoutes.home: (ctx) => const ShopPage(),

@@ -84,14 +84,16 @@ class _ShopPageState extends State<ShopPage> {
                   children: [
                     Expanded(
                       child: DynMouseScroll(
-                        builder: (context, controller, physics) =>
-                            SingleChildScrollView(
+                        builder: (context, controller, physics) => SingleChildScrollView(
                           controller: controller,
                           physics: physics,
                           child: Column(
                             children: [
-                              const Text('As Melhores ofertas da Internet',
-                                  style: TextStyle(fontSize: 24)),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text('As Melhores ofertas da Internet',
+                                    style: TextStyle(fontSize: 24)),
+                              ),
                               ProductView(
                                 showFavoriteOnly: _showFavoriteOnly,
                               ),
