@@ -1,5 +1,5 @@
 import 'package:PBStore/components/responsive.dart';
-import 'package:PBStore/providers/product_list.dart';
+import 'package:PBStore/providers/product_repository.dart';
 import 'package:PBStore/utils/constants.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dyn_mouse_scroll/dyn_mouse_scroll.dart';
@@ -30,7 +30,8 @@ class _ShopPageState extends State<ShopPage> {
 
   @override
   Widget build(BuildContext context) {
-    final favoriteItems = Provider.of<ProductList>(context).favoriteItems;
+    final productsRep = Provider.of<ProductRepository>(context);
+    final favoriteItems = Provider.of<ProductRepository>(context).favoriteItems;
     return Responsive.isXTest(context)
         ? const Scaffold()
         : Scaffold(
@@ -82,32 +83,38 @@ class _ShopPageState extends State<ShopPage> {
                 ),
               ],
             ),
-            body: Center(
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: maxWidth),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: DynMouseScroll(
-                        builder: (context, controller, physics) => SingleChildScrollView(
-                          controller: controller,
-                          physics: physics,
-                          child: Column(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: AutoSizeText('As Melhores ofertas da Internet',
-                                    maxLines: 1, style: TextStyle(fontSize: 24)),
-                              ),
-                              ProductView(
-                                showFavoriteOnly: _showFavoriteOnly,
-                              ),
-                            ],
+            body: RefreshIndicator(
+              onRefresh: () async {
+                await productsRep.loadProducts();
+              },
+              child: Center(
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: maxWidth),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: DynMouseScroll(
+                          builder: (context, controller, physics) =>
+                              SingleChildScrollView(
+                            controller: controller,
+                            physics: physics,
+                            child: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: AutoSizeText('As Melhores ofertas da Internet',
+                                      maxLines: 1, style: TextStyle(fontSize: 24)),
+                                ),
+                                ProductView(
+                                  showFavoriteOnly: _showFavoriteOnly,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

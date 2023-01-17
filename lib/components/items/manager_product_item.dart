@@ -1,4 +1,4 @@
-import 'package:PBStore/providers/product_list.dart';
+import 'package:PBStore/providers/product_repository.dart';
 import 'package:PBStore/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ class ManagerProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductList productList = Provider.of(context);
+    final productRep = Provider.of<ProductRepository>(context);
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
@@ -28,8 +28,7 @@ class ManagerProductItem extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.editproduct,
-                    arguments: product);
+                Navigator.pushNamed(context, AppRoutes.editproduct, arguments: product);
               },
             ),
             IconButton(
@@ -53,13 +52,30 @@ class ManagerProductItem extends StatelessWidget {
                                 style: TextStyle(fontSize: 20),
                               )),
                           TextButton(
-                              onPressed: () {
-                                productList.removeProduct(product);
-                                Navigator.of(context).pop(true);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Produto deletado com sucesso')));
+                              onPressed: () async {
+                                await productRep
+                                    .removeProduct(product)
+                                    .catchError((onError) {
+                                  return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Erro ao '
+                                              'Excluir'),
+                                          content:
+                                              const Text('Tente novamente mais tarde'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('OK'))
+                                          ],
+                                        );
+                                      });
+                                }).then((value) {
+                                  Navigator.of(context).pop(true);
+                                });
                               },
                               child: const Text(
                                 'Sim',

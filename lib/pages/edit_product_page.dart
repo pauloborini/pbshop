@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../models/product.dart';
-import '../providers/product_list.dart';
+import '../providers/product_repository.dart';
 
 class EditProductPage extends StatefulWidget {
   const EditProductPage({super.key});
@@ -51,7 +51,7 @@ class _EditProductPageState extends State<EditProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ProductList productList = Provider.of(context);
+    final ProductRepository productList = Provider.of(context);
     return Responsive.isXTest(context)
         ? const Scaffold()
         : Scaffold(

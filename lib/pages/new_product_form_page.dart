@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:validatorless/validatorless.dart';
 
-import '../providers/product_list.dart';
+import '../providers/product_repository.dart';
 import '../utils/constants.dart';
 
 class NewProductFormPage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _NewProductFormPageState extends State<NewProductFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ProductList productList = Provider.of(context);
+    final ProductRepository productList = Provider.of(context);
     return Responsive.isXTest(context)
         ? const Scaffold()
         : Scaffold(

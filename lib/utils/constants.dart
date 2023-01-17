@@ -15,11 +15,9 @@ const Color graphicColorGreen = Color.fromARGB(255, 117, 224, 53);
 const Color graphicColorRed = Color.fromARGB(255, 222, 55, 55);
 const Color standardBlue = Color.fromARGB(255, 0, 100, 254);
 const Color standardRed = Color.fromARGB(255, 248, 4, 43);
-const defaultPadding = 20.0;
-const defaultDuration = Duration(seconds: 1); // we use it on our animation
+const padding = 20.0;
+const duration = Duration(seconds: 1); // we use it on our animation
 const maxWidth = 1440.0;
-const String linkCV =
-    'https://drive.google.com/file/d/1YWjS7ExTVLEp7V3UZci7a7nBTX_I9_mv/view';
 
 ///Primary Color here!!!
 const Color primaryColor = Color.fromARGB(255, 124, 165, 245);

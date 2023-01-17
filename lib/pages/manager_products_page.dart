@@ -6,14 +6,14 @@ import 'package:provider/provider.dart';
 
 import '../components/app_drawer.dart';
 import '../components/items/manager_product_item.dart';
-import '../providers/product_list.dart';
+import '../providers/product_repository.dart';
 
 class ManagerProductsPage extends StatelessWidget {
   const ManagerProductsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<ProductList>(context);
+    final productsRep = Provider.of<ProductRepository>(context);
     return Responsive.isXTest(context)
         ? const Scaffold()
         : Scaffold(
@@ -21,20 +21,24 @@ class ManagerProductsPage extends StatelessWidget {
               title: const Text('Gerenciar Produtos'),
             ),
             drawer: const AppDrawer(),
-            body: Padding(
-              padding: const EdgeInsets.all(8),
-              child: ListView.builder(
-                itemCount: products.itemsCount,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    ManagerProductItem(product: products.items[index]),
-                    const Divider(),
-                  ],
+            body: RefreshIndicator(
+              onRefresh: () async {
+                await productsRep.loadProducts();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: ListView.builder(
+                  itemCount: productsRep.itemsCount,
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      ManagerProductItem(product: productsRep.items[index]),
+                      const Divider(),
+                    ],
+                  ),
                 ),
               ),
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Navigator.pushNamed(context, AppRoutes.newproduct);

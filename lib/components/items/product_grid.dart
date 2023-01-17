@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/product.dart';
-import '../../providers/product_list.dart';
+import '../../providers/product_repository.dart';
 import 'product_grid_item.dart';
 
 class ProductGrid extends StatelessWidget {
@@ -12,7 +12,7 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProductList>(context);
+    final provider = Provider.of<ProductRepository>(context);
     final List<Product> loadedProducts =
         showFavoriteOnly ? provider.favoriteItems : provider.items;
 

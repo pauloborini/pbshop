@@ -1,5 +1,5 @@
 import 'package:PBStore/components/responsive.dart';
-import 'package:PBStore/providers/product_list.dart';
+import 'package:PBStore/providers/product_repository.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,7 +24,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     final providerCart = Provider.of<Cart>(context, listen: false);
-    final providerProductList = Provider.of<ProductList>(context);
+    final providerProductList = Provider.of<ProductRepository>(context);
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
 
@@ -197,7 +197,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                           )
                         : Row(children: [
-                            const SizedBox(width: defaultPadding),
+                            const SizedBox(width: padding),
                             Container(
                               decoration:
                                   BoxDecoration(borderRadius: BorderRadius.circular(12)),
@@ -211,7 +211,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: defaultPadding),
+                            const SizedBox(width: padding),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,

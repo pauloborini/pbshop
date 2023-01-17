@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/product.dart';
-import '../providers/product_list.dart';
+import '../providers/product_repository.dart';
 import 'items/product_grid_item.dart';
 
 class ProductView extends StatelessWidget {
@@ -38,7 +38,7 @@ class ProductView extends StatelessWidget {
   }
 }
 
-class ProductGrid extends StatelessWidget {
+class ProductGrid extends StatefulWidget {
   final bool showFavoriteOnly;
 
   final int crossAxisCount;
@@ -51,26 +51,52 @@ class ProductGrid extends StatelessWidget {
       required this.childAspectRatio});
 
   @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<ProductList>(context);
-    final List<Product> loadedProducts =
-        showFavoriteOnly ? provider.favoriteItems : provider.items;
+  State<ProductGrid> createState() => _ProductGridState();
+}
 
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(10),
-      itemCount: loadedProducts.length,
-      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-        value: loadedProducts[i],
-        child: const ProductGridItem(),
-      ),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: childAspectRatio,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-    );
+class _ProductGridState extends State<ProductGrid> {
+  ValueNotifier<bool> loaded = ValueNotifier(false);
+
+  @override
+  void initState() {
+    Provider.of<ProductRepository>(context, listen: false).loadProducts();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    loaded.value = false;
+    final productRep = Provider.of<ProductRepository>(context);
+    final List<Product> loadedProducts =
+        widget.showFavoriteOnly ? productRep.favoriteItems : productRep.items;
+    loaded.value = true;
+
+    return ValueListenableBuilder(
+        valueListenable: loaded,
+        builder: (context, bool isLoaded, child) {
+          return (isLoaded && loadedProducts.isNotEmpty)
+              ? GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(10),
+                  itemCount: loadedProducts.length,
+                  itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                    value: loadedProducts[i],
+                    child: const ProductGridItem(),
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: widget.crossAxisCount,
+                    childAspectRatio: widget.childAspectRatio,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                )
+              : const Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                );
+        });
   }
 }

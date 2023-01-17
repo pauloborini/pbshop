@@ -46,8 +46,7 @@ class CartPage extends StatelessWidget {
                 ),
               ],
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
                 if (cart.itemsCount > 0) {
@@ -88,8 +87,7 @@ class CartPage extends StatelessWidget {
                       });
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content:
-                          Text('Adicione algum item para realizar o Pedido'),
+                      content: Text('Adicione algum item para realizar o Pedido'),
                       duration: Duration(seconds: 2)));
                 }
               },
@@ -103,7 +101,7 @@ class CartPage extends StatelessWidget {
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
                   const SizedBox(
-                    width: defaultPadding / 2,
+                    width: padding / 2,
                   ),
                   Chip(
                     backgroundColor: Theme.of(context).colorScheme.primary,
@@ -115,14 +113,12 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    width: defaultPadding * 2,
+                    width: padding * 2,
                   ),
                   const Text(
                     'COMPRAR',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black),
+                        fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
                   ),
                 ],
               ),

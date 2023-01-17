@@ -11,10 +11,10 @@ import 'pages/orders_page.dart';
 import 'pages/shop_page.dart';
 import 'providers/cart.dart';
 import 'providers/order_list.dart';
-import 'providers/product_list.dart';
+import 'providers/product_repository.dart';
 import 'utils/app_routes.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ProductList()),
+        ChangeNotifierProvider(create: (_) => ProductRepository()),
         ChangeNotifierProvider(create: (_) => Cart()),
         ChangeNotifierProvider(create: (_) => OrderList()),
       ],

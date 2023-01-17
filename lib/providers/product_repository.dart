@@ -1,12 +1,11 @@
 import 'dart:convert';
-
+import 'package:PBStore/exceptions/http_exception.dart';
+import 'package:PBStore/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/product.dart';
-
-class ProductList with ChangeNotifier {
-  final _urlFirebase = 'https://pbstore-sample-default-rtdb.firebaseio.com/products.json';
+class ProductRepository with ChangeNotifier {
+  final _baseURL = 'https://pbstore-sample-default-rtdb.firebaseio.com/products';
   final List<Product> _items = [];
 
   List<Product> get items => [..._items];
@@ -17,12 +16,9 @@ class ProductList with ChangeNotifier {
     return _items.length;
   }
 
-  ProductList() {
-    loadProducts();
-  }
-
-  loadProducts() async {
-    final response = await http.get(Uri.parse(_urlFirebase));
+  Future<void> loadProducts() async {
+    _items.clear();
+    final response = await http.get(Uri.parse('$_baseURL.json'));
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productID, productData) {
       _items.add(Product(
@@ -37,8 +33,8 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  addProduct(Product product) async {
-    final response = await http.post(Uri.parse(_urlFirebase),
+  Future<void> addProduct(Product product) async {
+    final response = await http.post(Uri.parse('$_baseURL.json'),
         body: jsonEncode({
           "name": product.name,
           "description": product.description,
@@ -58,9 +54,18 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeProduct(Product product) {
-    _items.remove(product);
-    notifyListeners();
+  Future<void> removeProduct(Product product) async {
+    int index = _items.indexWhere((p) => p.id == product.id);
+    if (index >= 0) {
+      final response = await http.delete(Uri.parse('$_baseURL/${product.id}.json'));
+      notifyListeners();
+      loadProducts();
+      if (response.statusCode >= 400) {
+        throw HTTPException(
+            message: 'Não foi possível Excluir o Produto',
+            statusCode: response.statusCode);
+      }
+    }
   }
 
   Future<void> saveProduct(
@@ -77,27 +82,34 @@ class ProductList with ChangeNotifier {
     await addProduct(product);
   }
 
-  void updateProduct(
+  Future<void> updateProduct(
       TextEditingController nameController,
       TextEditingController descController,
       TextEditingController priceController,
       TextEditingController urlController,
-      Product product) {
+      Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
     if (index >= 0) {
-      final product = Product(
-          id: index.toString(),
-          name: nameController.text,
-          description: descController.text,
-          price: double.parse(priceController.text),
-          imageUrl: urlController.text);
-      _items[index] = product;
+      await http.patch(Uri.parse('$_baseURL/${product.id}.json'),
+          body: jsonEncode({
+            "name": nameController.text,
+            "description": descController.text,
+            "price": double.parse(priceController.text),
+            "imageUrl": urlController.text,
+          }));
       notifyListeners();
+      loadProducts();
     }
   }
 
-  void toggleFavorite(Product product) {
+  Future<void> toggleFavorite(Product product) async {
     product.isFavorite = !product.isFavorite;
     notifyListeners();
+    int index = _items.indexWhere((p) => p.id == product.id);
+    if (index >= 0) {
+      await http.patch(Uri.parse('$_baseURL/${product.id}.json'),
+          body: jsonEncode({"isFavorite": product.isFavorite}));
+      notifyListeners();
+    }
   }
 }

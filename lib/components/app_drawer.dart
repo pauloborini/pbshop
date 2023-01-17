@@ -8,54 +8,62 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: [
-          AppBar(
-            title: const Text('Bem vindo a PB Store!'),
-            automaticallyImplyLeading: false,
-          ),
-          const Divider(
-            thickness: 1,
-          ),
-          ListTile(
-            leading: const Icon(FontAwesomeIcons.store),
-            title: const Text('Loja', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed(
-                AppRoutes.home,
-              );
-            },
-          ),
-          const Divider(
-            thickness: 1,
-          ),
-          ListTile(
-            leading: const Icon(FontAwesomeIcons.creditCard),
-            title: const Text('Pedidos', style: TextStyle(fontSize: 18)),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed(
-                AppRoutes.orders,
-              );
-            },
-          ),
-          const Divider(
-            thickness: 1,
-          ),
-          ListTile(
-            leading: const Icon(FontAwesomeIcons.pen),
-            title: const Text('Gerenciar Produtos',
-                style: TextStyle(fontSize: 18)),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed(
-                AppRoutes.products,
-              );
-            },
-          ),
-          const Divider(
-            thickness: 1,
-          ),
-        ],
+    return SizedBox(
+      width: 250,
+      child: Drawer(
+        child: Column(
+          children: [
+            const AspectRatio(
+              aspectRatio: 2,
+              child: Center(
+                  child: Text(
+                'Bem vindo a PB Store!',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 26),
+                maxLines: 2,
+              )),
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+            ListTile(
+              leading: const Icon(FontAwesomeIcons.store),
+              title: const Text('Loja', style: TextStyle(fontSize: 18)),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(
+                  AppRoutes.home,
+                );
+              },
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+            ListTile(
+              leading: const Icon(FontAwesomeIcons.creditCard),
+              title: const Text('Pedidos', style: TextStyle(fontSize: 18)),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(
+                  AppRoutes.orders,
+                );
+              },
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+            ListTile(
+              leading: const Icon(FontAwesomeIcons.pen),
+              title: const Text('Gerenciar Produtos', style: TextStyle(fontSize: 18)),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(
+                  AppRoutes.products,
+                );
+              },
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:PBStore/pages/product_detail_page.dart';
-import 'package:PBStore/providers/product_list.dart';
+import 'package:PBStore/providers/product_repository.dart';
 import 'package:PBStore/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,14 +51,12 @@ class ProductGridItem extends StatelessWidget {
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   )),
-              Consumer<ProductList>(
+              Consumer<ProductRepository>(
                 builder: (ctx, productList, _) => IconButton(
                   onPressed: () {
                     productList.toggleFavorite(product);
                   },
-                  icon: Icon(product.isFavorite
-                      ? Icons.favorite
-                      : Icons.favorite_border),
+                  icon: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
                   color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
